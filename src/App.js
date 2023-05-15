@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Form from "./components/Form";
+import "./assets/sass/main.scss";
 
 function App() {
+  const [formStatus, setFormStatus] = useState("");
+
+  const onSubmit = () => {
+    let counter = 0;
+
+    setInterval(() => {
+      if (counter === 100) {
+        clearInterval();
+        setFormStatus("success");
+      } else {
+        counter += 1;
+        setFormStatus("loading");
+      }
+    }, 10);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="container">
+      {formStatus === "loading" ? (
+        <div className="loader"></div>
+      ) : formStatus === "success" ? (
+        <h3>Your information is submitted</h3>
+      ) : (
+        <Form
+          header="Sign in"
+          subHeader="Welcome back !!!"
+          onSubmit={onSubmit}
+          status={formStatus}
+        />
+      )}
+    </main>
   );
 }
 
